@@ -1,6 +1,9 @@
+//Aggiungo variabile griglia
 const griglia = document.getElementById(`griglia`);
 console.log( griglia );
-
+let arrayBombs = []; //array vuoto x bombe
+let punteggio;
+let play; //livello e restart
 
 
 // creiamo una funzione per creare un div quadrato dentro la griglia
@@ -12,36 +15,93 @@ function creazioneQuadrato(num){ // setto un parametro che mi servira per inseri
     return div;  //<div class="quadrato"></div> cio che viene salvato effettivamente
 }
 
+
 console.log( creazioneQuadrato() );
 
 //inseriamo il quadrato creato dalla funzione nella griglia
 //griglia.append(creazioneQuadrato());
 
-let num = 0 //creo variabile numero
-
-
 //100 quadrati
-for(let i = 0; i<100; i++){
-    num = num + 1;
-    let elementoCorrente = creazioneQuadrato(num); //L'ho chiamata elementoCorrente la variabile, perchè non avrei potuto usare creazioneQuadrato dato che è funziona
+function generateGrid() {
+
+    arrayBombs = generateBomb(); // mi ritorna return bombs (ovvero l'array con 16 numeri generati random)
+    console.log(arrayBombs);
+
+for(let i = 1; i<=100; i++){
+    let elementoCorrente = creazioneQuadrato(i); //L'ho chiamata elementoCorrente la variabile, perchè non avrei potuto usare creazioneQuadrato dato che è funziona
     console.log(elementoCorrente); //controlliamo se crea div con classe quadrato
 
-    elementoCorrente.addEventListener(`click`, function(){ //mi creo un evento al click proprio in quell elemento associa evento al click
-        console.log(this); //la possibilita di andare a targhetizzare l'elemento con cui stiamo lavorando
-        this.classList.toggle(`yellow`); //di tutto quello che è l'html aggiungo la classe con il toggle active
-
-    })
-
+    //aggiungi evento al click in base a se contiene bomba o no 
+    if (arrayBombs.includes(i)) {  //se lista bombe corrisponde è inclusa nel (i) (1-100) fai qualcosa --> function al click
+        elementoCorrente.addEventListener(`click`, function () {
+            this.classList.add(`bombs`);
+            this.innerText = `🚨`;
+            //questo è quello che clicchi, quando clicchi aggiunge la classe
+        })
+    }
+    else {
+        elementoCorrente.addEventListener(`click`, function () { //mi creo un evento al click proprio in quell elemento associa evento al click
+            console.log(this); //la possibilita di andare a targhetizzare l'elemento con cui stiamo lavorando
+            this.classList.toggle(`yellow`); //di tutto quello che è l'html aggiungo la classe con il toggle active
+        })
+    }
     griglia.append(elementoCorrente);
-
+    }
 }
 
+    generateGrid();
+//Aggiungo variabile punti e array bombe
+
+
+// Funzione bombs
+function generateBomb(){
+    let bombs = []; //creo array vuoto dove inserire i numreri generati
+    let bomb; //creo variabile con cui genero i numeri e che mi servira ad inserirli nell array bombs
+    for (let x = 0; x < 16; x++){ //ciclo che gira per 16 volte
+        bomb = Math.floor( Math.random() * 100 ) + 1; /// genero numeri
+        bombs.push(bomb); //inserisco variabile bomb (con cui genera numeri x 16 volte) all interno dll'array bombs
+    }
+    return bombs; // al richiamo della funzione mi ritonerna bombs con 16 numeri generati randomuicamente
+}
+console.log(generateBomb())
+
+// Stabilire la fine del gioco
+// 1 - Crea Funzione 
+// 2 - in base a cosa clicchi 
+//     - se clichi su un elemento : il contatore conteggia i click
+//     - altrimenti se clicchi una bomba stampa a schermo ho perso e rivela le bombe 
+
+// function endGame(){
+
+// }
 
 
 //griglia - genero le bombe - per altri numeri randomici
 //crei array con bombe vuoto crei - 16 numeri randomici con math random - push - fai controllo con la funzione includes se incluso true senno false dentro un condizionale (distinuendo stringa e numero con parse ints)
 //se l'utente clicca diventa rossa + frase hai perso, se diventa blu punteggio che aumenta.
 //
+
+
+
+/*
+Scompongo esercizio
+1- Creazioni variabili
+    -Griglia :  mi servirà per mettere i quadrati all'interno
+    -DimGriglia : per stabilire la dimensione griglia(Bonus)
+    -Play: per aggiungere funzione di start al click
+    -array bombe : per inserigli le bombe generate random da una funzione
+    -Punti: per stabilire il punteggio
+    -PuntiToWin : per stabilire quando si vince
+2- Creazione funzioni
+    - per creare quadrati
+    - per stabilire difficoltà e di conseguenza quanti quadrati generare
+    - per stabilire l'inizio
+    - per stabilire la fine
+    - per generare bombe
+    
+*/
+
+
 
 // Ciao ragazzi,
 // Esercizio di oggi: Campo Minato

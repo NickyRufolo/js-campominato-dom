@@ -24,3 +24,7 @@ background-color: rgb(255, 140, 0);
 .yellow{
     background-color: rgb(234, 255, 0);
 }
+
+.bombs{
+background-color: red;
+}
